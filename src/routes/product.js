@@ -36,5 +36,12 @@ routerProd.put('/:id', async (req, res) => {
     res.send(mensaje)
 })
 
+routerProd.post('/', async (req, res) => { 
+    let mensaje = await productManager.addProduct(req.body)
+    res.send(mensaje)
+})
+
+
+
 
 export default routerProd

@@ -1,6 +1,6 @@
 import { promises as fs } from 'fs'
 
-let products = [];
+
 
 export class ProductManager {
    
@@ -22,13 +22,16 @@ export class ProductManager {
         return this.idIncrement
     }
 
-    async addProduct(title, description, price, thumbnail, stock) {
+    async addProduct({title, description, price, thumbnail, stock}) {
+        const prods = JSON.parse(await fs.readFile('src/models/db.txt', 'utf-8'))        
+  
         if (title, description, price, thumbnail, stock) {
-            products.push(new ProductManager(title, description, price, thumbnail, stock))
-            await fs.writeFile('src/models/db.txt', JSON.stringify(products))
+            prods.push (new ProductManager(title, description, price, thumbnail, stock))
+            await fs.writeFile('src/models/db.txt', JSON.stringify(prods))
+            return "Producto Actualizado"
         }
         else {
-            console.log("ERROR: Todos los datos para poder cargar el producto son obligatorios")
+            return "ERROR: Todos los datos para poder cargar el producto son obligatorios"
         }
     }
 
@@ -73,6 +76,7 @@ export class ProductManager {
             prods[index].thumbnail = thumbnail            
             prods[index].stock = stock
             await fs.writeFile('src/models/db.txt', JSON.stringify(prods))
+           
             return "Producto actualizado"
         } else {
             return "Producto no encontrado"
